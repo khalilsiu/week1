@@ -1,4 +1,5 @@
 pragma circom 2.0.0;
+include "Multiplier2.circom";
 
 // [assignment] Modify the circuit below to perform a multiplication of three signals
 
@@ -10,8 +11,14 @@ template Multiplier3 () {
    signal input c;
    signal output d;  
 
-   // Constraints.  
-   d <== a * b * c;  
+   component multiplierA = Multiplier2();
+   component multiplierB = Multiplier2();
+
+   multiplierA.a <== a;
+   multiplierA.b <== b;
+   multiplierB.a <== multiplierA.c;
+   multiplierB.b <== c;
+   d <== multiplierB.c;
 }
 
 component main = Multiplier3();
